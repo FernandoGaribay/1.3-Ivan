@@ -57,20 +57,21 @@ class Empresa {
 private:
     char* nombre;
     Cliente clientes[1];
-    int posicion;
+    int posicion = 0;
+
 public:
     Empleado empleados[2];
-
     Empresa();
     Empresa(char const* nom, int pos);
     ~Empresa();
     void setNombre(char const* nom1);
     char* getNombre();
-    void agregarEmpleado(Empleado emp);
+    void agregarEmpleado(Empleado emp[]);
     void mostrarEmpleado();
     void agregarCliente(Cliente cl);
     void mostrarCliente();
     void mostrarEmpresa();
+    double sueldoSuma();
 };
 
 //Constructores y Destructor
@@ -178,30 +179,37 @@ int Empleado::getSueldo() {
 
 //Métodos
 
-void Empresa::agregarEmpleado(Empleado emp) {
-    if (posicion < 1) {
-        posicion++;
-        empleados[posicion] = emp;
+void Empresa::agregarEmpleado(Empleado emp[]) {
+    for (int i = 0; i < 2; i++) {
+        empleados[i] = emp[i];
     }
 }
 
 void Empresa::mostrarEmpleado() {
-    for (int i = 0; i <= posicion, i++;) {
+    for (int i = 0; i < 2; i++) {
         cout << "Empleado: " << i + 1 << " " << empleados[i].getEmp() << endl;
     }
 }
 
 void Empresa::agregarCliente(Cliente cl) {
-    if (posicion < 1) {
-        posicion++;
+    if (posicion < 2) {
         clientes[posicion] = cl;
+        posicion++;
     }
 }
 
 void Empresa::mostrarCliente() {
-    for (int i = 0; i <= posicion, i++;) {
+    for (int i = 0; i <= posicion; i++) {
         cout << "Cliente: " << i + 1 << " " << clientes[i].getNomC() << endl;
     }
+}
+
+double Empresa::sueldoSuma() {
+    double sueldoTotal;
+
+    sueldoTotal = empleados[0].getSueldo() + empleados[1].getSueldo();
+
+    return sueldoTotal;
 }
 
 void Empresa::mostrarEmpresa() {
@@ -228,22 +236,21 @@ int main()
 {
     Empresa CETI_MX;
     Cliente cliente;
-    Empleado empleado1, empleado2;
+    Empleado empleados[2];
 
     cliente.setNomC("CETI Colomos");
     cliente.setNumC(2131);
     cliente.setDirC("Calle Nueva Escocia #1885");
 
-    empleado1.setEmp("Jo");
-    empleado1.setNomina(21310417);
-    empleado1.setSueldo(14000);
+    empleados[0].setEmp("Jo");
+    empleados[0].setNomina(21310417);
+    empleados[0].setSueldo(14000);
 
-    empleado2.setEmp("Mike");
-    empleado2.setNomina(21310434);
-    empleado2.setSueldo(14000);
+    empleados[1].setEmp("Mike");
+    empleados[1].setNomina(21310434);
+    empleados[1].setSueldo(14000);
 
-    CETI_MX.agregarEmpleado(empleado1);
-    CETI_MX.agregarEmpleado(empleado2);
+    CETI_MX.agregarEmpleado(empleados);
 
     CETI_MX.mostrarEmpresa();
     cout << "\n";
@@ -252,12 +259,12 @@ int main()
     cout << "\n";
 
     cout << "Empleados actuales\n" << endl;
-    empleado1.mostrarEmpleado();
+    empleados[0].mostrarEmpleado();
     cout << "\n";
-    empleado2.mostrarEmpleado();
+    empleados[1].mostrarEmpleado();
     cout << "\n";
 
-    cout << "Sueldo combinado: " << endl;
+    cout << "Sueldo combinado: " << CETI_MX.sueldoSuma() << endl;
 
 
     return 0;
